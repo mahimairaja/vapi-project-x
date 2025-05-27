@@ -16,7 +16,7 @@ A personal assistant that helps you manage your day. It uses voice to create tas
 | 4 | Develop Intent & NLU Layer with GPT-4 | ⏳ Pending | 🔴 High | 3 |
 | 5 | Implement Task & Reminder Creation Features | ⏳ Pending | 🔴 High | 2, 4 |
 | 6 | Implement OAuth Authentication Flow | ⏳ Pending | 🟡 Medium | 2 |
-| 7 | Integrate Calendar API and Implement Date Features | ⏳ Pending | �� Medium | 5, 6 |
+| 7 | Integrate Calendar API and Implement Date Features | ⏳ Pending | 🟡 Medium | 5, 6 |
 | 8 | Implement Email Snapshot Feature | ⏳ Pending | 🟡 Medium | 6, 4 |
 | 9 | Implement Scheduler for Reminders | ⏳ Pending | 🟡 Medium | 5 |
 | 10 | Implement Quality Improvements and Error Handling | ⏳ Pending | 🟢 Low | 3, 4, 5, 7, 8, 9 |
