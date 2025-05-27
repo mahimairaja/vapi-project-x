@@ -1,0 +1,91 @@
+<context>
+# Overview  
+Voice Task Manager is a voice–first productivity assistant that turns any phone call into a hands-free command center.  
+**Problem** Busy professionals often need to check calendars, set reminders, or triage email while driving, walking, or multitasking. Touch-based assistants are unsafe or unavailable in these contexts.  
+**Solution** By leveraging Vapi’s real-time voice streaming, a FastAPI-driven backend, and an LLM intent engine, the product lets users speak naturally (“Remind me to send the invoice tomorrow at 3 p.m.”) and receive instant, conversational responses.  
+**Value** • Zero-friction task capture → fewer forgotten items  
+• Safer, screen-free workflow → productivity anywhere  
+• Context-aware summaries → time saved reading and planning  
+
+# Core Features  
+| Feature | What it does | Why it matters | High-level implementation |
+|---------|--------------|----------------|---------------------------|
+| **Task & Reminder Creation** | Creates dated tasks from natural speech. | Captures todos at the moment they’re remembered. | Intent parser → Task model → APScheduler job → confirmation TTS. |
+| **Daily / On-Demand Briefing** | Reads out a smart summary of the day’s meetings, tasks, and deadlines. | Replaces manual calendar checks; offers mental clarity. | Calendar & Task query → LLM condensation → single spoken paragraph. |
+| **Conflict Detection** | Alerts if new events clash with existing ones and offers reschedule options. | Prevents double-booking and missed meetings. | Time-range overlap check → LLM generates polite prompt → user voice decision. |
+| **Email Snapshot** | Summarizes top unread or important emails. | Cuts inbox triage time while mobile. | Gmail/Outlook fetch → heuristic importance filter → LLM bullet digest. |
+| **Natural Follow-ups** | “Mark that done.” / “Move it to Monday.” | Enables quick micro-edits without screens. | Context memory → CRUD ops → spoken confirmation. |
+
+# User Experience  
+**Personas**  
+1. *The Commuter Executive* – frequently in a car; needs eyes-free planning.  
+2. *The Field Sales Rep* – jumps between client sites; relies on voice briefings.  
+3. *The Freelance Consultant* – juggles many projects; captures tasks on the go.  
+
+**Key Flows**  
+1. **Inbound Call** → Greeting → Intent capture → Action → Spoken result.  
+2. **Proactive Morning Call** (optional) → Daily agenda briefing.  
+3. **Reminder Trigger** → Outbound Vapi call / SMS → “Reminder: send invoice.”  
+
+**UI/UX Considerations**  
+- Sub-400 ms turn latency.  
+- Confirmations phrased succinctly (“Got it—reminder set.”).  
+- Graceful fallback to SMS for long content.  
+- “Barge-in” support so users can interrupt the TTS.  
+</context>
+
+<PRD>
+# Technical Architecture  
+**System Components**  
+- **Vapi Voice Agent** – PSTN/SIP endpoint, ASR/TTS streaming.  
+- **FastAPI Orchestrator** – `/vapi/webhook` endpoint, session state, auth layer.  
+- **Intent & NLU Layer** – GPT-4o (JSON mode) with small regex fallbacks.  
+- **Scheduler** – APScheduler (inside FastAPI) or Celery + Redis for scale.  
+- **Data Store** – SQLModel on SQLite (MVP) → Postgres (future).  
+- **Integrations**  
+  - Google Calendar / Microsoft Graph  
+  - Gmail / Outlook REST  
+  - Optional Slack/Teams webhooks  
+
+**Data Models (simplified)**  
+- `User(id, name, oauth_token, timezone)`  
+- `Task(id, user_id, title, due_dt, status, tags)`  
+- `Reminder(id, task_id, trigger_dt, delivered)`  
+- `EventCache(id, user_id, ext_event_id, start_dt, end_dt)`  
+
+**Infrastructure Requirements**  
+- Single VM/container (Fly.io, Render, or GCP Cloud Run).  
+- TLS termination and public webhook URL.  
+- Redis (optional) for async job queues and WebSocket scale-out.  
+
+# Development Roadmap  
+| Phase | Scope (no timelines) |
+|-------|----------------------|
+| **MVP** | • OAuth auth flow  <br>• Task/reminder CRUD via voice  <br>• Daily & on-demand agenda  <br>• Conflict detection  <br>• Email snapshot  |
+| **v1 Enhancements** | • Proactive morning briefing (outbound)  <br>• Priority tags & filtering  <br>• Basic web dashboard (HTMX) |
+| **v2** | • Slack/Teams “catch-up” posts  <br>• Multi-language TTS/ASR  <br>• Team-shared calendars & tasks |
+| **v3** | • Meeting transcript → action-item extraction  <br>• Analytics dashboard (time spent, task completion rates)  <br>• Enterprise SSO, audit logs |
+
+# Logical Dependency Chain  
+1. **Foundations** – Auth, data models, Vapi webhook.  
+2. **Core Intents** – Add/list tasks, agenda fetch (usable demo).  
+3. **External Integrations** – Calendar then Email.  
+4. **Scheduler & Reminder Delivery** – enables proactive actions.  
+5. **Quality Layers** – Conflict detection, polite re-prompting, barge-in.  
+6. **Dashboards & Multi-channel** – web UI, Slack outputs.  
+
+# Risks and Mitigations  
+| Risk | Mitigation |
+|------|------------|
+| ASR mishears dates/times | Use LLM + `dateparser` cross-validation; allow quick correction flow. |
+| OAuth scope complexity | Start with Google only; wrap providers behind an abstraction. |
+| Latency budget bust (LLM) | Cache intent responses; use function-calling JSON spec for deterministic small replies. |
+| MVP creep | Strict checklist (core five features) before any stretch work. |
+| Privacy / PII handling | Encrypt tokens at rest; delete email bodies after summarization. |
+| Rate limits / quotas | Batch calendar/email calls; exponential back-off with logging. |
+
+# Appendix  
+- **Research**: 75 % of voice-assistant users rely on reminders (Adobe Voice Survey 2024).  
+- **Technical Specs**: Vapi streaming WebSocket, GPT-4o function calling, Google Calendar v3, Gmail REST v1.  
+- **Security**: OAuth 2.0 PKCE, HTTPS everywhere, OWASP top-10 review checklist.
+</PRD>

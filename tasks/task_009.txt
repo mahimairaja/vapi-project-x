@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: Implement Scheduler for Reminders
+# Status: pending
+# Dependencies: 5
+# Priority: medium
+# Description: Set up APScheduler within FastAPI to handle scheduled reminders and proactive calls
+# Details:
+Integrate APScheduler with FastAPI. Implement job scheduling for reminders. Create outbound Vapi call mechanism for proactive notifications. Add SMS fallback for failed voice calls. Implement timezone-aware scheduling based on user preferences. Create job persistence to survive application restarts. Add logging and monitoring for scheduled jobs.
+
+# Test Strategy:
+Test reminder scheduling with various time intervals. Verify outbound calls are made at the correct times. Test timezone handling. Verify job persistence across application restarts.

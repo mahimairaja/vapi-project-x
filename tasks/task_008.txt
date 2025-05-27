@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Implement Email Snapshot Feature
+# Status: pending
+# Dependencies: 6, 4
+# Priority: medium
+# Description: Integrate Gmail API and create the email summarization functionality
+# Details:
+Integrate Gmail REST v1 API. Implement unread/important email fetching. Create heuristic importance filter for emails. Develop LLM-based email summarization into bullet points. Implement privacy-focused email body deletion after summarization. Add graceful fallback to SMS for long content. Create batching mechanism for API calls to respect rate limits.
+
+# Test Strategy:
+Test email retrieval and summarization with various email types. Verify importance filtering accuracy. Test privacy measures for email content. Verify SMS fallback for long summaries.

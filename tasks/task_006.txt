@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: Implement OAuth Authentication Flow
+# Status: pending
+# Dependencies: 2
+# Priority: medium
+# Description: Create the OAuth authentication flow for Google services (Calendar and Gmail)
+# Details:
+Implement OAuth 2.0 PKCE flow for Google authentication. Create secure token storage in the User model. Set up token refresh mechanism. Implement proper scopes for Calendar and Gmail access. Create an abstraction layer for future provider additions. Add secure encryption for tokens at rest. Implement user onboarding flow for first-time authentication.
+
+# Test Strategy:
+Test complete OAuth flow from authorization to token retrieval. Verify token refresh works correctly. Test with invalid/expired tokens. Verify proper scope handling and error cases.

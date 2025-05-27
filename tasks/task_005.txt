@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Implement Task & Reminder Creation Feature
+# Status: pending
+# Dependencies: 2, 4
+# Priority: high
+# Description: Develop the core functionality to create tasks and reminders from natural speech
+# Details:
+Create service layer for task and reminder creation. Implement natural language date/time parsing with dateparser. Add cross-validation with LLM to improve accuracy. Develop confirmation flows with concise TTS responses. Implement CRUD operations for tasks via voice commands. Add support for 'mark as done' and rescheduling commands. Integrate with the database models created earlier.
+
+# Test Strategy:
+Test task creation with various natural language inputs. Verify date/time parsing accuracy. Test modification and deletion flows. Verify database persistence and retrieval.

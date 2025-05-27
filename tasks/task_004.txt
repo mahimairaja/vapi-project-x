@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Develop Intent & NLU Layer with GPT-4o
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Implement the intent recognition and natural language understanding layer using GPT-4o in JSON mode
+# Details:
+Integrate GPT-4o API with JSON mode for structured responses. Create prompt templates for intent recognition. Implement function calling specifications for deterministic replies. Add regex fallbacks for common patterns as backup. Design intent categories for tasks, reminders, calendar, and email operations. Implement context tracking to support natural follow-ups. Create a caching mechanism for intent responses to reduce latency.
+
+# Test Strategy:
+Test with sample utterances across all intent categories. Verify JSON response structure and accuracy. Measure latency and optimize if needed. Test context-aware follow-up scenarios.

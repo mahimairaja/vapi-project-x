@@ -1,0 +1,170 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Setup Project Repository and FastAPI Framework",
+      "description": "Initialize the project repository with FastAPI framework, SQLModel, and basic project structure",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Create a new repository with proper .gitignore. Set up FastAPI with SQLModel for ORM. Configure project structure with routes, models, services, and utils directories. Install required dependencies (fastapi, sqlmodel, uvicorn, python-dotenv). Create a basic config module for environment variables. Set up a simple health check endpoint to verify the API is running.",
+      "testStrategy": "Verify FastAPI server starts successfully. Test health check endpoint returns 200 OK. Ensure SQLModel connects to SQLite database.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Initialize Repository and Install Dependencies",
+          "description": "Create a new GitHub repository with proper structure and install all required dependencies",
+          "dependencies": [],
+          "details": "1. Create a new GitHub repository\n2. Initialize with a Python-specific .gitignore file\n3. Create a requirements.txt file with the following dependencies: fastapi, sqlmodel, uvicorn, python-dotenv\n4. Create a README.md with project description\n5. Set up a virtual environment: `python -m venv venv`\n6. Activate the virtual environment and install dependencies: `pip install -r requirements.txt`\n7. Create a basic project structure with directories: app/, tests/\n8. Inside app/ create subdirectories: routes/, models/, services/, utils/\n9. Test by ensuring all packages install correctly and the repository structure is properly set up",
+          "status": "pending",
+          "parentTaskId": 1
+        },
+        {
+          "id": 2,
+          "title": "Configure Environment and Project Settings",
+          "description": "Set up configuration module for environment variables and basic project settings",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Create a .env file in the root directory with basic configuration variables (e.g., DATABASE_URL, API_ENV=development)\n2. Create a .env.example file as a template\n3. In app/utils/ create config.py module that uses python-dotenv to load environment variables\n4. Implement configuration class with settings for different environments (dev, test, prod)\n5. Create main.py in the root app/ directory that initializes the FastAPI application\n6. Configure CORS, middleware, and other basic FastAPI settings in main.py\n7. Test the configuration by printing environment variables and ensuring they load correctly\n8. Add documentation in the code explaining the configuration approach",
+          "status": "pending",
+          "parentTaskId": 1
+        },
+        {
+          "id": 3,
+          "title": "Implement Health Check Endpoint and Basic API Structure",
+          "description": "Set up the basic API structure with a health check endpoint to verify the API is running correctly",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "1. In app/routes/ create health.py with a simple health check endpoint that returns status 200 and a JSON response\n2. Create app/routes/__init__.py to make the directory a proper package\n3. In app/main.py, import and include the health check router\n4. Set up a basic error handling middleware\n5. Create a simple database connection setup in app/models/base.py using SQLModel\n6. Implement a basic schema for API responses in app/models/schemas.py\n7. Test the API by running it with uvicorn: `uvicorn app.main:app --reload`\n8. Verify the health check endpoint works by accessing it at http://localhost:8000/health\n9. Document the API structure and endpoints in the README.md",
+          "status": "pending",
+          "parentTaskId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Implement Data Models and Database Setup",
+      "description": "Create SQLModel data models for User, Task, Reminder, and EventCache with SQLite database initialization",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Define SQLModel classes for User, Task, Reminder, and EventCache as specified in the PRD. Implement database initialization script with SQLite (for MVP). Create migration utilities for future Postgres migration. Set up CRUD operations for each model. Implement proper relationship mapping between models. Add indexes for performance optimization on frequently queried fields.",
+      "testStrategy": "Unit tests for model creation, relationships, and CRUD operations. Verify constraints and data integrity. Test database initialization and connection handling."
+    },
+    {
+      "id": 3,
+      "title": "Implement Vapi Webhook Integration",
+      "description": "Create the /vapi/webhook endpoint to handle incoming Vapi voice calls and manage session state",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Implement the /vapi/webhook endpoint to receive Vapi voice call events. Set up ASR (Automatic Speech Recognition) and TTS (Text-to-Speech) streaming with Vapi. Create session state management to maintain context during calls. Implement basic greeting and farewell flows. Handle call connection, disconnection, and error states. Ensure sub-400ms turn latency as specified in the PRD.",
+      "testStrategy": "Test webhook with simulated Vapi requests. Verify session state persistence across multiple requests. Measure response latency to ensure it meets the sub-400ms requirement."
+    },
+    {
+      "id": 4,
+      "title": "Develop Intent & NLU Layer with GPT-4o",
+      "description": "Implement the intent recognition and natural language understanding layer using GPT-4o in JSON mode",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "priority": "high",
+      "details": "Integrate GPT-4o API with JSON mode for structured responses. Create prompt templates for intent recognition. Implement function calling specifications for deterministic replies. Add regex fallbacks for common patterns as backup. Design intent categories for tasks, reminders, calendar, and email operations. Implement context tracking to support natural follow-ups. Create a caching mechanism for intent responses to reduce latency.",
+      "testStrategy": "Test with sample utterances across all intent categories. Verify JSON response structure and accuracy. Measure latency and optimize if needed. Test context-aware follow-up scenarios."
+    },
+    {
+      "id": 5,
+      "title": "Implement Task & Reminder Creation Feature",
+      "description": "Develop the core functionality to create tasks and reminders from natural speech",
+      "status": "pending",
+      "dependencies": [
+        2,
+        4
+      ],
+      "priority": "high",
+      "details": "Create service layer for task and reminder creation. Implement natural language date/time parsing with dateparser. Add cross-validation with LLM to improve accuracy. Develop confirmation flows with concise TTS responses. Implement CRUD operations for tasks via voice commands. Add support for 'mark as done' and rescheduling commands. Integrate with the database models created earlier.",
+      "testStrategy": "Test task creation with various natural language inputs. Verify date/time parsing accuracy. Test modification and deletion flows. Verify database persistence and retrieval."
+    },
+    {
+      "id": 6,
+      "title": "Implement OAuth Authentication Flow",
+      "description": "Create the OAuth authentication flow for Google services (Calendar and Gmail)",
+      "status": "pending",
+      "dependencies": [
+        2
+      ],
+      "priority": "medium",
+      "details": "Implement OAuth 2.0 PKCE flow for Google authentication. Create secure token storage in the User model. Set up token refresh mechanism. Implement proper scopes for Calendar and Gmail access. Create an abstraction layer for future provider additions. Add secure encryption for tokens at rest. Implement user onboarding flow for first-time authentication.",
+      "testStrategy": "Test complete OAuth flow from authorization to token retrieval. Verify token refresh works correctly. Test with invalid/expired tokens. Verify proper scope handling and error cases."
+    },
+    {
+      "id": 7,
+      "title": "Integrate Calendar API and Implement Daily Briefing",
+      "description": "Connect to Google Calendar API and implement the daily/on-demand briefing feature",
+      "status": "pending",
+      "dependencies": [
+        5,
+        6
+      ],
+      "priority": "medium",
+      "details": "Integrate Google Calendar v3 API. Implement calendar event fetching and caching. Create EventCache synchronization logic. Develop LLM-based condensation of calendar events into a spoken paragraph. Implement daily agenda retrieval by date range. Create conflict detection logic for overlapping events. Add reschedule options via voice. Implement batch processing and rate limit handling.",
+      "testStrategy": "Test calendar integration with real Google accounts. Verify event retrieval accuracy. Test conflict detection with overlapping events. Measure API call efficiency and optimize if needed."
+    },
+    {
+      "id": 8,
+      "title": "Implement Email Snapshot Feature",
+      "description": "Integrate Gmail API and create the email summarization functionality",
+      "status": "pending",
+      "dependencies": [
+        6,
+        4
+      ],
+      "priority": "medium",
+      "details": "Integrate Gmail REST v1 API. Implement unread/important email fetching. Create heuristic importance filter for emails. Develop LLM-based email summarization into bullet points. Implement privacy-focused email body deletion after summarization. Add graceful fallback to SMS for long content. Create batching mechanism for API calls to respect rate limits.",
+      "testStrategy": "Test email retrieval and summarization with various email types. Verify importance filtering accuracy. Test privacy measures for email content. Verify SMS fallback for long summaries."
+    },
+    {
+      "id": 9,
+      "title": "Implement Scheduler for Reminders",
+      "description": "Set up APScheduler within FastAPI to handle scheduled reminders and proactive calls",
+      "status": "pending",
+      "dependencies": [
+        5
+      ],
+      "priority": "medium",
+      "details": "Integrate APScheduler with FastAPI. Implement job scheduling for reminders. Create outbound Vapi call mechanism for proactive notifications. Add SMS fallback for failed voice calls. Implement timezone-aware scheduling based on user preferences. Create job persistence to survive application restarts. Add logging and monitoring for scheduled jobs.",
+      "testStrategy": "Test reminder scheduling with various time intervals. Verify outbound calls are made at the correct times. Test timezone handling. Verify job persistence across application restarts."
+    },
+    {
+      "id": 10,
+      "title": "Implement Quality Improvements and Error Handling",
+      "description": "Add polite re-prompting, barge-in support, and comprehensive error handling",
+      "status": "pending",
+      "dependencies": [
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "priority": "low",
+      "details": "Implement barge-in support to allow users to interrupt TTS. Create polite re-prompting flows for misunderstood commands. Add comprehensive error handling for all API integrations. Implement exponential back-off for rate limits. Create fallback mechanisms for LLM failures. Add detailed logging for troubleshooting. Implement OWASP top-10 security review. Create graceful degradation paths for service outages.",
+      "testStrategy": "Test barge-in functionality during TTS playback. Verify error handling with simulated API failures. Test rate limit handling with rapid requests. Conduct security review against OWASP guidelines."
+    }
+  ],
+  "metadata": {
+    "projectName": "Voice Task Manager",
+    "totalTasks": 10,
+    "sourceFile": "/Users/mahimairaja/repo/Year_2025/MAY/vapi-project-x/scripts/PRD.txt",
+    "generatedAt": "2023-05-15"
+  }
+}

@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: Implement Vapi Webhook Integration
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create the /vapi/webhook endpoint to handle incoming Vapi voice calls and manage session state
+# Details:
+Implement the /vapi/webhook endpoint to receive Vapi voice call events. Set up ASR (Automatic Speech Recognition) and TTS (Text-to-Speech) streaming with Vapi. Create session state management to maintain context during calls. Implement basic greeting and farewell flows. Handle call connection, disconnection, and error states. Ensure sub-400ms turn latency as specified in the PRD.
+
+# Test Strategy:
+Test webhook with simulated Vapi requests. Verify session state persistence across multiple requests. Measure response latency to ensure it meets the sub-400ms requirement.
