@@ -21,12 +21,6 @@ A personal assistant that helps you manage your day. It uses voice to create tas
 | 9 | Implement Scheduler for Reminders | ⏳ Pending | 🟡 Medium | 5 |
 | 10 | Implement Quality Improvements and Error Handling | ⏳ Pending | 🟢 Low | 3, 4, 5, 7, 8, 9 |
 
-### Legend
-- 🔴 High Priority
-- 🟡 Medium Priority
-- 🟢 Low Priority
-- ⏳ Pending Status
-
 
 ## Core Features
 
