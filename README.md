@@ -36,4 +36,8 @@ A personal assistant that helps you manage your day. It uses voice to create tas
 - Vapi
 - APIScheduler
 
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=mahimairaja/vapi-project-x@github)](https://gitads.dev/v1/ad-track?source=mahimairaja/vapi-project-x@github)
+
+
 <!-- GitAds-Verify: 49M3H9FWEK8LRKH9A25JR3HANU84IUBB -->
